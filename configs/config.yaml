@@ -1,0 +1,91 @@
+# config.yaml
+# Main configuration file for the CCTV Overlay Metadata Translator
+
+# Basic settings
+server:
+  listen_port: 14000
+  host: 0.0.0.0
+  max_connections: 100
+  log_level: "debug"
+
+# NVR configuration
+nvr:
+  address: "192.168.1.100:5000"
+  username: "admin"
+  password: "password123"
+  stream_format: "mpegts"
+  resolution: "1920x1080"
+  fps: 30
+
+# Camera configuration
+cameras:
+  - id: "camera1"
+    name: "Front Entrance"
+    device_id: "123456"
+    position: [50, 50]
+    overlay_text:
+      - "Date: {{.Date}}"
+      - "Temperature: {{.Temperature}}°C"
+      - "Motion Detected: {{.MotionCount}} times"
+    active: true
+    priority: high
+
+  - id: "camera2"
+    name: "Backyard"
+    device_id: "654321"
+    position: [750, 200]
+    overlay_text:
+      - "Time: {{.Time}}"
+      - "Visitor Count: {{.VisitorCount}}"
+      - "Events: {{.EventCount}}"
+    active: true
+    priority: medium
+
+# Storage configuration
+storage:
+  directory: "C:/cctv_data"
+  format: "mp4"
+  max_file_size: 4194304000  # 4GB
+  retention_period: "30d"  # 30 days
+
+# Analytics configuration
+analytics:
+  enabled: true
+  database:
+    host: "localhost:5432"
+    name: "cctv_analytics"
+    user: "analytics_user"
+    password: "securepassword"
+    sslmode: "disable"
+
+# Security configuration
+security:
+  auth_enabled: true
+  api_key: "your_api_key_here"
+  allowed_origins:
+    - "http://localhost:4200"
+    - "https://dashboard.example.com"
+  rate_limit: 100  # requests per minute
+
+# Logging configuration
+logging:
+  file:
+    path: "C:/cctv_logs/application.log"
+    max_size: 100MB
+    max_backups: 5
+  console: true
+  debug: true
+
+# Alert configuration
+alerts:
+  email:
+    enabled: true
+    address: "admin@example.com"
+    smtp:
+      host: "smtp.example.com"
+      port: 587
+      username: "alert_user"
+      password: "alert_password"
+  webhooks:
+    - url: "https://pagerduty.example.com"
+      events: ["motion", "alert"]
