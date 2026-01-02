@@ -125,20 +125,20 @@ func dashboardHandler(w http.ResponseWriter, r *http.Request) {
     #log{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;height:70vh;overflow-y:auto;}
     .msg{margin:12px 0;padding:12px;border-radius:8px;background:#0d1117;}
     .spar{border-left:4px solid #238636;}
-    .vbspos{border-left:4px solid #f0dd12ff;} 
+    .vbspos{border-left:4px solid #fefe0bff;}
     .ashida{border-left:4px solid #b083e9;}
     time{color:#8b949e;font-size:0.9rem;}
   </style>
 </head>
 <body>
   <nav>
-    <h3>POS MultiDecoder</h3>
+    <h3>POS Translator</h3>
     <a href="/">Live Dashboard</a>
     <a href="/config">Site Config</a>
     <a href="/mappings">NVR Mappings</a>
   </nav>
   <main>
-    <h1>Live Transaction Events</h1>
+    <h1>Live POS Events</h1>
     <div class="license-info">License: Max Devices {{.MaxDevices}} | Fingerprint: {{.Fingerprint}}</div>
     <div id="log"></div>
   </main>
