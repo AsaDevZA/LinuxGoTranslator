@@ -4,7 +4,16 @@ web:
 
 cctv:
   nvr_ip: "192.168.1.50"
-  nvr_port: 14000
+  nvr_port: 40000
+
+  dstore:
+  servermain_port: 1719
+  serversecond_port: 1720
+  serveraux_port: 1721
+
+  vbsPos:
+  multicast_ip: "230.0.0.1"
+  vbspos_port: 4050
 
 license:
   max_total_devices: 50
