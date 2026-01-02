@@ -15,6 +15,8 @@ func NewParserFactory() *ParserFactory {
 
 func (f *ParserFactory) GetParser(provider string) Parser {
 	switch provider {
+	case "vbspos":
+		return &parsers.VBSParser{}
 	case "spar":
 		return &parsers.SparParser{}
 	case "ashida":

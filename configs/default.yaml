@@ -1,21 +1,16 @@
-# configs/default.yaml
 web:
-  port: 8081
-
+    port: 8082
 cctv:
-  nvr_ip: "192.168.1.50"
-  nvr_port: 40000
-
-  dstore:
-  servermain_port: 1719
-  serversecond_port: 1720
-  serveraux_port: 1721
-
-  vbsPos:
-  multicast_ip: "230.0.0.1"
-  vbspos_port: 4050
-
+    nvr_ip: 127.0.0.1
+    nvr_port: 40000
+dstore:
+    servermain_port: 1719
+    serversecond_port: 1720
+    serveraux_port: 1721
+vbspos:
+    multicast_ip: 230.0.0.1
+    vbspos_port: 4050
 license:
-  max_total_devices: 50
-  max_per_scale: 64
-  machine_fingerprint: "f0:d4:15:05:36:e2"  # replace with real MAC
+    max_total_devices: 50
+    max_per_scale: 64
+    machine_fingerprint: f0:d4:15:05:36:e2

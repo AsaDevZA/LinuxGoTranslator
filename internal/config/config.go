@@ -11,7 +11,7 @@ type Config struct {
 	Web     WebConfig     `yaml:"web"`
 	CCTV    CCTVConfig    `yaml:"cctv"`
 	DSTORE  DSTOREConfig  `yaml:"dstore"`
-	VBSPOS  VBSPOSConfig  `yaml:"vbsPos"`
+	VBSPOS  VBSPOSConfig  `yaml:"vbspos"`
 	License LicenseConfig `yaml:"license"`
 }
 

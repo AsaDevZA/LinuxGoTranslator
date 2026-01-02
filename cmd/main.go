@@ -16,6 +16,7 @@ import (
 	"github.com/AsaDevZA/LinuxGoTranslator/internal/config"
 	"github.com/AsaDevZA/LinuxGoTranslator/internal/factory"
 	"github.com/AsaDevZA/LinuxGoTranslator/internal/license"
+	"github.com/AsaDevZA/LinuxGoTranslator/internal/multicast"
 	"github.com/AsaDevZA/LinuxGoTranslator/internal/sender"
 	"github.com/AsaDevZA/LinuxGoTranslator/internal/web"
 )
@@ -40,11 +41,32 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
+	// UDP servers (existing providers)
 	udpServers := startUDPServers(ctx, cfg)
+
+	// Sender to CCTV
+	udpSender := sender.NewUDPSender(cfg.CCTV.NVRIP, cfg.CCTV.NVRPort)
+
+	// Parser factory
+	parserFactory := factory.NewParserFactory()
+
+	// VBS POS multicast listener
+	log.Printf("Starting VBS multicast listener on %s:%d",
+		cfg.VBSPOS.MulticastIP, cfg.VBSPOS.VbsMainPort)
+	mcastServer := multicast.NewMulticastServer(
+		cfg.VBSPOS.MulticastIP,
+		cfg.VBSPOS.VbsMainPort,
+		parserFactory,
+		udpSender,
+	)
+	go mcastServer.Run(ctx)
+
+	// Web dashboard
 	webServer := startWebServer(ctx, cfg)
 
+	// Graceful shutdown
 	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
 	<-sigChan
 
 	log.Println("Shutdown signal received...")
@@ -56,8 +78,9 @@ func main() {
 	for _, srv := range udpServers {
 		srv.Shutdown(shutdownCtx)
 	}
+	mcastServer.Shutdown(shutdownCtx)
 
-	if err := webServer.Shutdown(shutdownCtx); err != nil {
+	if err := webServer.Shutdown(shutdownCtx); err != nil && err != http.ErrServerClosed {
 		log.Printf("Web server shutdown error: %v", err)
 	}
 
@@ -67,7 +90,7 @@ func main() {
 func startUDPServers(ctx context.Context, cfg *config.Config) []*UDPServer {
 	var servers []*UDPServer
 
-	// Placeholder ports - replace with config-driven list later
+	// Example ports — later read from config
 	ports := []int{41000, 41001, 44000, 44001}
 
 	for _, port := range ports {
@@ -80,7 +103,6 @@ func startUDPServers(ctx context.Context, cfg *config.Config) []*UDPServer {
 
 		srv := &UDPServer{
 			conn:     conn,
-			cfg:      cfg,
 			factory:  factory.NewParserFactory(),
 			sender:   sender.NewUDPSender(cfg.CCTV.NVRIP, cfg.CCTV.NVRPort),
 			shutdown: make(chan struct{}),
@@ -113,9 +135,12 @@ func startWebServer(ctx context.Context, cfg *config.Config) *http.Server {
 	return srv
 }
 
+// ────────────────────────────────────────────────
+// UDPServer (for classic providers)
+// ────────────────────────────────────────────────
+
 type UDPServer struct {
 	conn     *net.UDPConn
-	cfg      *config.Config
 	factory  *factory.ParserFactory
 	sender   *sender.UDPSender
 	shutdown chan struct{}
@@ -123,7 +148,6 @@ type UDPServer struct {
 
 func (s *UDPServer) run(ctx context.Context) {
 	buf := make([]byte, 4096)
-
 	for {
 		select {
 		case <-ctx.Done():
@@ -150,12 +174,11 @@ func (s *UDPServer) run(ctx context.Context) {
 }
 
 func (s *UDPServer) processPacket(data []byte, remote *net.UDPAddr) {
-	// Placeholder provider detection
-	provider := "spar"
+	provider := "spar" // ← replace with real detection later
 
 	parser := s.factory.GetParser(provider)
 	if parser == nil {
-		log.Printf("No parser for provider %s from %s", provider, remote)
+		log.Printf("No parser for %s from %s", provider, remote)
 		return
 	}
 

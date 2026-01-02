@@ -2,6 +2,7 @@
 package sender
 
 import (
+	"fmt"
 	"net"
 
 	"github.com/AsaDevZA/LinuxGoTranslator/internal/parsers"
@@ -21,7 +22,7 @@ func NewUDPSender(ip string, port int) *UDPSender {
 }
 
 func (s *UDPSender) Send(data *parsers.UniversalData) error {
-	payload := []byte("example metadata") // placeholder
+	payload := []byte(fmt.Sprintf("Till:%s Metadata:%s", data.TillID, data.Raw)) // Format as needed
 	_, err := s.conn.Write(payload)
 	return err
 }
