@@ -3,6 +3,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -10,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -205,5 +207,5 @@ func (s *UDPServer) Shutdown(ctx context.Context) {
 }
 
 func isClosed(err error) bool {
-	return err.Error() == "use of closed network connection"
+	return errors.Is(err, net.ErrClosed) || strings.Contains(err.Error(), "use of closed network connection")
 }

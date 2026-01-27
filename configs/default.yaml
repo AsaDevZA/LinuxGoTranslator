@@ -1,7 +1,7 @@
 web:
-    port: 8082
+    port: 8084
 cctv:
-    nvr_ip: 127.0.0.1
+    nvr_ip: 192.168.0.200
     nvr_port: 40000
 dstore:
     servermain_port: 1719
@@ -11,6 +11,70 @@ vbspos:
     multicast_ip: 230.0.0.1
     vbspos_port: 4050
 license:
-    max_total_devices: 50
-    max_per_scale: 64
+    max_total_devices: 100
+    max_per_scale: 20
     machine_fingerprint: f0:d4:15:05:36:e2
+ipmaps:
+    - ipaddress: 192.168.1.100
+      port: 2000
+      type: 2
+    - ipaddress: 192.168.1.101
+      port: 2000
+      type: 4
+    - ipaddress: 192.168.1.100
+      port: 2000
+      type: 4
+    - ipaddress: 192.168.1.100
+      port: 2000
+      type: 3
+    - ipaddress: 192.168.1.100
+      port: 2000
+      type: 4
+    - ipaddress: 192.168.1.100
+      port: 2000
+      type: 2
+    - ipaddress: 192.168.1.100
+      port: 2000
+      type: 3
+    - ipaddress: 192.168.1.100
+      port: 2000
+      type: 2
+    - ipaddress: 192.168.1.100
+      port: 2000
+      type: 2
+    - ipaddress: 192.168.0.2
+      port: 2000
+      type: 4
+    - ipaddress: 192.168.0.1
+      port: 4000
+      type: 3
+device_types:
+    - id: 1
+      name: Terioka
+      description: UDP Protocol
+    - id: 2
+      name: Terioka
+      description: SM110 TCP Protocol
+    - id: 3
+      name: Terioka
+      description: SM120 TCP Protocol
+    - id: 4
+      name: Terioka
+      description: SM5000 TCP Protocol
+    - id: 5
+      name: Ishida
+      description: UNI Protocol
+    - id: 6
+      name: Ishida
+      description: BC4000 Protocol
+site_details:
+    site_name: Pick and Pay
+    branch: Precap Center
+    site_location: George
+    owner_name: Adriaan
+    owner_surname: Vorster
+    contact_cell: "0842087825"
+    contact_email: adriaan.ultech@gmail.com
+admin:
+    username: admin
+    password: admin
