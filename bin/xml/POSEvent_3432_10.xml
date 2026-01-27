@@ -1,0 +1,14 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>3</till>
+  <txnNumber>3432</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>10</sequenceNumber>
+  <date>20120917</date>
+  <time>17145700</time>
+  <event type="REMOVE CASH DRAWER">
+    <cashDrawerOpen>CANCEL</cashDrawerOpen>
+  </event>
+</POSEventMessage>

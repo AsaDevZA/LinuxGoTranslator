@@ -1,0 +1,21 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9391</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>15</sequenceNumber>
+  <date>20120820</date>
+  <time>12590100</time>
+  <event type="ITEM UNKNOWN">
+    <amount>6.99</amount>
+    <departmentCode name="EDIBLE GROCERIES">
+      <value>G12</value>
+    </departmentCode>
+    <description>EDIBLE GROCERIES</description>
+    <quantity>1</quantity>
+    <plu>5449000117816</plu>
+    <unitPrice>6.99</unitPrice>
+  </event>
+</POSEventMessage>

@@ -1,0 +1,22 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>3</till>
+  <txnNumber>3422</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>79</sequenceNumber>
+  <date>20120917</date>
+  <time>16354200</time>
+  <event type="ITEM SALE">
+    <amount>6.50</amount>
+    <departmentCode name="BRASSICUS">
+      <value>F02020301</value>
+    </departmentCode>
+    <description>PNP RED CABBAGE</description>
+    <quantity>1</quantity>
+    <plu>945</plu>
+    <sku>253568</sku>
+    <unitPrice>6.50</unitPrice>
+  </event>
+</POSEventMessage>

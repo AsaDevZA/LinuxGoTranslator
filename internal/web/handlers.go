@@ -120,6 +120,11 @@ func basicAuth(next http.HandlerFunc) http.HandlerFunc {
 func dashboardHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.New("dash").Parse(dashboardHTML))
 
+	fingerprint, err := license.GetPrimaryMAC()
+	if err != nil {
+		fingerprint = "Error getting MAC address"
+	}
+
 	posChannels := 0
 	scaleChannels := 0
 	lprChannels := 0
@@ -145,7 +150,7 @@ func dashboardHandler(w http.ResponseWriter, r *http.Request) {
 		CloudStorage      bool
 		StoreType         string
 	}{
-		Fingerprint:       cfgGlobal.License.MachineFingerprint,
+		Fingerprint:       fingerprint,
 		POSChannels:       posChannels,
 		ScaleChannels:     scaleChannels,
 		LPRChannels:       lprChannels,
@@ -184,7 +189,6 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 			DSTORE: config.DSTOREConfig{ServerMainPort: atoi(r.FormValue("dstore_main"), cfgGlobal.DSTORE.ServerMainPort), ServerSecondPort: atoi(r.FormValue("dstore_second"), cfgGlobal.DSTORE.ServerSecondPort), ServerAuxPort: atoi(r.FormValue("dstore_aux"), cfgGlobal.DSTORE.ServerAuxPort)},
 			VBSPOS: config.VBSPOSConfig{MulticastIP: multicastIP, VbsMainPort: atoi(r.FormValue("vbspos_port"), cfgGlobal.VBSPOS.VbsMainPort)},
 			License: config.LicenseConfig{
-				MachineFingerprint: r.FormValue("license_fingerprint"),
 				UnlockKey:          r.FormValue("unlock_key"),
 			},
 			IPMaps:      cfgGlobal.IPMaps,
@@ -202,6 +206,11 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fingerprint, err := license.GetPrimaryMAC()
+	if err != nil {
+		fingerprint = "Error getting MAC address"
+	}
+
 	tmpl := template.Must(template.New("config").Parse(configHTML))
 	tmpl.Execute(w, map[string]interface{}{
 		"WebPort":            cfgGlobal.Web.Port,
@@ -212,7 +221,7 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 		"DSTOREAux":          cfgGlobal.DSTORE.ServerAuxPort,
 		"VBSPOSMulticastIP":  cfgGlobal.VBSPOS.MulticastIP,
 		"VBSPOSPort":         cfgGlobal.VBSPOS.VbsMainPort,
-		"LicenseFingerprint": cfgGlobal.License.MachineFingerprint,
+		"LicenseFingerprint": fingerprint,
 		"UnlockKey":          cfgGlobal.License.UnlockKey,
 	})
 }

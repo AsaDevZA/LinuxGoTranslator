@@ -1,0 +1,21 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9395</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>37</sequenceNumber>
+  <date>20120820</date>
+  <time>14131400</time>
+  <event type="ITEM SALE">
+    <amount>100.00</amount>
+    <departmentCode name="LOTTO">
+      <value>S39010101</value>
+    </departmentCode>
+    <description>LOTTO PLUS</description>
+    <quantity>1</quantity>
+    <sku>406553</sku>
+    <unitPrice>100.00</unitPrice>
+  </event>
+</POSEventMessage>

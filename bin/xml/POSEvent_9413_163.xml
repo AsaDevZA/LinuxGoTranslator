@@ -1,0 +1,15 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9413</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>163</sequenceNumber>
+  <date>20120820</date>
+  <time>16520500</time>
+  <event type="TRANSACTION VOID">
+    <amount>8.50</amount>
+    <reason>Operator Error</reason>
+  </event>
+</POSEventMessage>

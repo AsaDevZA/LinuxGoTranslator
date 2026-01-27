@@ -1,0 +1,17 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9406</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>106</sequenceNumber>
+  <date>20120820</date>
+  <time>15281800</time>
+  <event type="AUTHORISATION FAILED">
+    <accessPointToken>PercentLineDiscount</accessPointToken>
+    <authorisorCode name="">
+      <value>38061004</value>
+    </authorisorCode>
+  </event>
+</POSEventMessage>

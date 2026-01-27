@@ -1,0 +1,21 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9399</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>64</sequenceNumber>
+  <date>20120820</date>
+  <time>14262700</time>
+  <event type="ITEM SALE">
+    <amount>0.00</amount>
+    <departmentCode name="P/P ELECT DEPT SALES">
+      <value>S36990101</value>
+    </departmentCode>
+    <description>TAX EXEMPT ELECTRICITY</description>
+    <quantity>1</quantity>
+    <sku>270344</sku>
+    <unitPrice>0.00</unitPrice>
+  </event>
+</POSEventMessage>

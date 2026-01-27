@@ -33,20 +33,37 @@ type LicenseData struct {
 func Validate(cfg config.LicenseConfig) (*LicenseData, error) {
 	currentMAC, err := getPrimaryMAC()
 	if err != nil {
-		return nil, err
-	}
-
-	if currentMAC != cfg.MachineFingerprint {
-		return nil, fmt.Errorf("machine fingerprint mismatch")
+		return &LicenseData{
+			StoreType:         0,
+			POSChannels:       0,
+			ScaleChannels:     0,
+			LPRChannels:       0,
+			AdvancedReporting: false,
+			CloudStorage:      false,
+		}, nil
 	}
 
 	if cfg.UnlockKey == "" {
-		return nil, fmt.Errorf("no unlock key provided")
+		return &LicenseData{
+			StoreType:         0,
+			POSChannels:       0,
+			ScaleChannels:     0,
+			LPRChannels:       0,
+			AdvancedReporting: false,
+			CloudStorage:      false,
+		}, nil
 	}
 
 	licenseData, err := DecryptLicense(cfg.UnlockKey, currentMAC)
 	if err != nil {
-		return nil, fmt.Errorf("invalid unlock key: %v", err)
+		return &LicenseData{
+			StoreType:         0,
+			POSChannels:       0,
+			ScaleChannels:     0,
+			LPRChannels:       0,
+			AdvancedReporting: false,
+			CloudStorage:      false,
+		}, nil
 	}
 
 	return licenseData, nil

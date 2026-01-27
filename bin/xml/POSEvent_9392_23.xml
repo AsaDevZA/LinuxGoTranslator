@@ -1,0 +1,12 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9392</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>23</sequenceNumber>
+  <date>20120820</date>
+  <time>13141200</time>
+  <event type="VAS FAILED"/>
+</POSEventMessage>

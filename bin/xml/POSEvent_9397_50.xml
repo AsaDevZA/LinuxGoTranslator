@@ -1,0 +1,20 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9397</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>50</sequenceNumber>
+  <date>20120820</date>
+  <time>14192900</time>
+  <event type="DEPARTMENT SALE">
+    <amount>3.57</amount>
+    <departmentCode name="L BABY">
+      <value>C23</value>
+    </departmentCode>
+    <description>L BABY</description>
+    <quantity>1</quantity>
+    <unitPrice>3.57</unitPrice>
+  </event>
+</POSEventMessage>

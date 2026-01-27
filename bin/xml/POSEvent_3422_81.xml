@@ -1,0 +1,22 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>3</till>
+  <txnNumber>3422</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>81</sequenceNumber>
+  <date>20120917</date>
+  <time>16354300</time>
+  <event type="ITEM SALE">
+    <amount>30.49</amount>
+    <departmentCode name="CIGARETTES 20S">
+      <value>G13010102</value>
+    </departmentCode>
+    <description>CAMEL C/PROOF BOX FLT 2</description>
+    <quantity>1</quantity>
+    <plu>08035335</plu>
+    <sku>136629</sku>
+    <unitPrice>30.49</unitPrice>
+  </event>
+</POSEventMessage>

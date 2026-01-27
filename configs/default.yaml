@@ -1,5 +1,5 @@
 web:
-    port: 8084
+    port: 8080
 cctv:
     nvr_ip: 192.168.0.200
     nvr_port: 40000
@@ -11,18 +11,17 @@ vbspos:
     multicast_ip: 230.0.0.1
     vbspos_port: 4050
 license:
-    machine_fingerprint: f0:d4:15:05:36:e2
-    unlock_key: Y9zMRazRpWOU9aUnf3rTMhTB2qy3s0PKW5St/eqGPrk=
+    unlock_key: Y9zMRazRpWOU9aUnf3rTMhTB2qy/s0PKWZSt/eiHPrk=
 ipmaps:
     - ipaddress: 192.168.1.101
       port: 55000
-      type: 6
+      type: 3
     - ipaddress: 192.168.1.102
       port: 55000
-      type: 6
+      type: 1
     - ipaddress: 192.168.1.103
       port: 55000
-      type: 6
+      type: 5
     - ipaddress: 192.168.1.104
       port: 55000
       type: 6
@@ -46,12 +45,6 @@ ipmaps:
       type: 1
     - ipaddress: 192.168.1.111
       port: 41001
-      type: 1
-    - ipaddress: 192.168.1.112
-      port: 41001
-      type: 1
-    - ipaddress: 192.168.0.20
-      port: 40001
       type: 1
 device_types:
     - id: 1

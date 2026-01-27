@@ -1,0 +1,15 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>3</till>
+  <txnNumber>3424</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>97</sequenceNumber>
+  <date>20120917</date>
+  <time>16420600</time>
+  <event type="TENDER">
+    <amount>0.05</amount>
+    <tenderName>ROUNDING</tenderName>
+  </event>
+</POSEventMessage>

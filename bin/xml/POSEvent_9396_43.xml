@@ -1,0 +1,21 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9396</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>43</sequenceNumber>
+  <date>20120820</date>
+  <time>14161400</time>
+  <event type="ITEM SALE">
+    <amount>35.00</amount>
+    <departmentCode name="LOTTO">
+      <value>S39010101</value>
+    </departmentCode>
+    <description>POWER BALL</description>
+    <quantity>1</quantity>
+    <sku>431908</sku>
+    <unitPrice>35.00</unitPrice>
+  </event>
+</POSEventMessage>

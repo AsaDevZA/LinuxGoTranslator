@@ -1,0 +1,13 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9387</txnNumber>
+  <sequenceNumber>1</sequenceNumber>
+  <date>20120820</date>
+  <time>11434500</time>
+  <event type="SESSION OVERRIDE">
+    <authorisorCode name="">
+      <value>38069876</value>
+    </authorisorCode>
+  </event>
+</POSEventMessage>

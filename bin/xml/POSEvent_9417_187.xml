@@ -1,0 +1,14 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9417</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>187</sequenceNumber>
+  <date>20120820</date>
+  <time>17090700</time>
+  <event type="TRANSACTION COMPLETE">
+    <amount>9.49</amount>
+  </event>
+</POSEventMessage>

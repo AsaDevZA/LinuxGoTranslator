@@ -1,0 +1,17 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>3</till>
+  <txnNumber>3416</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>56</sequenceNumber>
+  <date>20120917</date>
+  <time>16094000</time>
+  <event type="AUTHORISATION SUCCESSFUL">
+    <accessPointToken>InvoiceTender</accessPointToken>
+    <authorisorCode name="">
+      <value>38061004</value>
+    </authorisorCode>
+  </event>
+</POSEventMessage>

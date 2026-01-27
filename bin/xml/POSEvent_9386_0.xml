@@ -1,0 +1,9 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9386</txnNumber>
+  <sequenceNumber>0</sequenceNumber>
+  <date>20120820</date>
+  <time>10472300</time>
+  <event type="LOGON INVALID"/>
+</POSEventMessage>

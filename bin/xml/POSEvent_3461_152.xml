@@ -1,0 +1,22 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>3</till>
+  <txnNumber>3461</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>152</sequenceNumber>
+  <date>20120918</date>
+  <time>16123300</time>
+  <event type="ITEM SALE">
+    <amount>7.99</amount>
+    <departmentCode name="BRASSICUS">
+      <value>F02020301</value>
+    </departmentCode>
+    <description>CAULIFLOWER 1EA</description>
+    <quantity>1</quantity>
+    <plu>946</plu>
+    <sku>257505</sku>
+    <unitPrice>7.99</unitPrice>
+  </event>
+</POSEventMessage>

@@ -1,0 +1,15 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9417</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>184</sequenceNumber>
+  <date>20120820</date>
+  <time>17090600</time>
+  <event type="TENDER">
+    <amount>9.40</amount>
+    <tenderName>CASH</tenderName>
+  </event>
+</POSEventMessage>

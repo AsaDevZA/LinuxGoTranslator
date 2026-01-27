@@ -1,0 +1,22 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9390</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>8</sequenceNumber>
+  <date>20120820</date>
+  <time>12435200</time>
+  <event type="ITEM SALE">
+    <amount>25.98</amount>
+    <departmentCode name="CANNED TOMATOES">
+      <value>G12080322</value>
+    </departmentCode>
+    <description>ITALIAN STYLE SL TOMATO</description>
+    <quantity>2</quantity>
+    <plu>6001059989708</plu>
+    <sku>150173</sku>
+    <unitPrice>12.99</unitPrice>
+  </event>
+</POSEventMessage>

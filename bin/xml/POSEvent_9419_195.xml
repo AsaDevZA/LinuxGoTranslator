@@ -1,0 +1,14 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9419</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>195</sequenceNumber>
+  <date>20120820</date>
+  <time>17214900</time>
+  <event type="TRANSACTION LOYALTY">
+    <description>Healthyfoods</description>
+  </event>
+</POSEventMessage>

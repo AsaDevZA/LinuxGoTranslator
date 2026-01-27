@@ -1,0 +1,21 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9400</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>70</sequenceNumber>
+  <date>20120820</date>
+  <time>14325700</time>
+  <event type="ITEM SALE">
+    <amount>7.00</amount>
+    <departmentCode name="LOTTO DEPT SALES">
+      <value>S39990101</value>
+    </departmentCode>
+    <description>ZERO VAT-LOTTO</description>
+    <quantity>1</quantity>
+    <sku>270397</sku>
+    <unitPrice>7.00</unitPrice>
+  </event>
+</POSEventMessage>

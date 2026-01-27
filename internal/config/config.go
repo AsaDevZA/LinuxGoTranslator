@@ -40,7 +40,6 @@ type VBSPOSConfig struct {
 }
 
 type LicenseConfig struct {
-	MachineFingerprint string `yaml:"machine_fingerprint"`
 	UnlockKey          string `yaml:"unlock_key"`
 }
 

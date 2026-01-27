@@ -1,0 +1,22 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>3</till>
+  <txnNumber>3424</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>94</sequenceNumber>
+  <date>20120917</date>
+  <time>16420400</time>
+  <event type="ITEM SALE">
+    <amount>164.95</amount>
+    <departmentCode name="UHT CUSTARD">
+      <value>G12060207</value>
+    </departmentCode>
+    <description>SOY DESSERT CHOC 4EA</description>
+    <quantity>5</quantity>
+    <plu>0000054051157</plu>
+    <sku>436468</sku>
+    <unitPrice>32.99</unitPrice>
+  </event>
+</POSEventMessage>

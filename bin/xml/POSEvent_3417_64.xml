@@ -1,0 +1,17 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>3</till>
+  <txnNumber>3417</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>64</sequenceNumber>
+  <date>20120917</date>
+  <time>16140400</time>
+  <event type="TENDER">
+    <amount>38.99</amount>
+    <captureMode>1</captureMode>
+    <cvm>0</cvm>
+    <tenderName>DISCOVERY VISA</tenderName>
+  </event>
+</POSEventMessage>

@@ -1,0 +1,21 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9398</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>56</sequenceNumber>
+  <date>20120820</date>
+  <time>14230800</time>
+  <event type="ITEM SALE">
+    <amount>50.00</amount>
+    <departmentCode name="EASY PAY 3RD P D/SAL">
+      <value>S50990101</value>
+    </departmentCode>
+    <description>3RD PARTY PAYMENTS</description>
+    <quantity>1</quantity>
+    <sku>270355</sku>
+    <unitPrice>50.00</unitPrice>
+  </event>
+</POSEventMessage>

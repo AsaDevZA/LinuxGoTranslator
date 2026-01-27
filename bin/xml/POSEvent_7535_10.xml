@@ -1,0 +1,22 @@
+<POSEventMessage>
+  <storeCode>3121</storeCode>
+  <till>2</till>
+  <txnNumber>7535</txnNumber>
+  <operatorCode name="Algumister H">
+    <value>31212120</value>
+  </operatorCode>
+  <sequenceNumber>10</sequenceNumber>
+  <date>20130221</date>
+  <time>11520500</time>
+  <event type="ITEM SALE">
+    <amount>50.00</amount>
+    <departmentCode name="WHITE BREAD">
+      <value>F55010101</value>
+    </departmentCode>
+    <description>HALF BROWN&amp;W/WHEAT BRD</description>
+    <quantity>10</quantity>
+    <plu>999</plu>
+    <sku>215543</sku>
+    <unitPrice>5.00</unitPrice>
+  </event>
+</POSEventMessage>

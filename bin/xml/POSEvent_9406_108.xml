@@ -1,0 +1,21 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9406</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>108</sequenceNumber>
+  <date>20120820</date>
+  <time>15283500</time>
+  <event type="ITEM DISCOUNT">
+    <departmentCode name="WHITE BREAD">
+      <value>F55010101</value>
+    </departmentCode>
+    <discountValue>4.25</discountValue>
+    <description>FAHIEMAS TUISGEBAKTE BRD</description>
+    <plu>999</plu>
+    <reason>Bulk Purchase</reason>
+    <sku>215543</sku>
+  </event>
+</POSEventMessage>

@@ -1,0 +1,21 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9401</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>75</sequenceNumber>
+  <date>20120820</date>
+  <time>14412500</time>
+  <event type="ITEM SALE">
+    <amount>50.00</amount>
+    <departmentCode name="G/VOUCHER DEPT SALES">
+      <value>S40990101</value>
+    </departmentCode>
+    <description>TAX GIFT VOUCHERS</description>
+    <quantity>1</quantity>
+    <sku>270348</sku>
+    <unitPrice>50.00</unitPrice>
+  </event>
+</POSEventMessage>

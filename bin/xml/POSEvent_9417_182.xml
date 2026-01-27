@@ -1,0 +1,22 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9417</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>182</sequenceNumber>
+  <date>20120820</date>
+  <time>17083100</time>
+  <event type="ITEM SALE">
+    <amount>9.49</amount>
+    <departmentCode name="BAKING TOPPINGS">
+      <value>G12010108</value>
+    </departmentCode>
+    <description>FAYS CHOC DROPS  50GR</description>
+    <quantity>1</quantity>
+    <plu>60068323</plu>
+    <sku>154867</sku>
+    <unitPrice>9.49</unitPrice>
+  </event>
+</POSEventMessage>

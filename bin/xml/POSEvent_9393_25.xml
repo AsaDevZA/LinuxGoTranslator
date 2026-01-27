@@ -1,0 +1,22 @@
+<POSEventMessage>
+  <storeCode>3806</storeCode>
+  <till>4</till>
+  <txnNumber>9393</txnNumber>
+  <operatorCode name="Komane1 P">
+    <value>38069876</value>
+  </operatorCode>
+  <sequenceNumber>25</sequenceNumber>
+  <date>20120820</date>
+  <time>13141700</time>
+  <event type="ITEM SALE">
+    <amount>275.00</amount>
+    <departmentCode name="RECHARGE VOUCHERS">
+      <value>M44010104</value>
+    </departmentCode>
+    <description>R275 VIRTUAL RECHARGE</description>
+    <quantity>1</quantity>
+    <plu>6006986000908</plu>
+    <sku>262528</sku>
+    <unitPrice>275.00</unitPrice>
+  </event>
+</POSEventMessage>
