@@ -40,9 +40,8 @@ type VBSPOSConfig struct {
 }
 
 type LicenseConfig struct {
-	MaxTotalDevices    int    `yaml:"max_total_devices"`
-	MaxPerScale        int    `yaml:"max_per_scale"`
 	MachineFingerprint string `yaml:"machine_fingerprint"`
+	UnlockKey          string `yaml:"unlock_key"`
 }
 
 // IPMap represents a single NVR mapping

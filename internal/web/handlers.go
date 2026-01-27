@@ -3,6 +3,7 @@ package web
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"net"
 	"net/http"
@@ -13,6 +14,7 @@ import (
 	"time"
 
 	"github.com/AsaDevZA/LinuxGoTranslator/internal/config"
+	"github.com/AsaDevZA/LinuxGoTranslator/internal/license"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 	"gopkg.in/yaml.v3"
@@ -27,12 +29,11 @@ var (
 	messages   []Message
 	messagesMu sync.Mutex
 
-	cfgGlobal  *config.Config
-	configPath string
+	cfgGlobal         *config.Config
+	configPath        string
+	licenseDataGlobal *license.LicenseData
 
-	adminUser string
-	adminPass string
-	maxMsgs   = 20
+	maxMsgs = 20
 )
 
 type Message struct {
@@ -44,6 +45,11 @@ type Message struct {
 func SetGlobalConfig(cfg *config.Config, path string) {
 	cfgGlobal = cfg
 	configPath = path
+
+	licData, err := license.Validate(cfg.License)
+	if err == nil {
+		licenseDataGlobal = licData
+	}
 }
 
 // Broadcast sends a message to all connected WebSocket clients
@@ -113,12 +119,39 @@ func basicAuth(next http.HandlerFunc) http.HandlerFunc {
 // ──────────────────────────────
 func dashboardHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.New("dash").Parse(dashboardHTML))
+
+	posChannels := 0
+	scaleChannels := 0
+	lprChannels := 0
+	advancedReporting := false
+	cloudStorage := false
+	storeType := "Unlicensed"
+
+	if licenseDataGlobal != nil {
+		posChannels = licenseDataGlobal.POSChannels
+		scaleChannels = licenseDataGlobal.ScaleChannels
+		lprChannels = licenseDataGlobal.LPRChannels
+		advancedReporting = licenseDataGlobal.AdvancedReporting
+		cloudStorage = licenseDataGlobal.CloudStorage
+		storeType = license.GetStoreTypeName(licenseDataGlobal.StoreType)
+	}
+
 	data := struct {
-		MaxDevices  int
-		Fingerprint string
+		Fingerprint       string
+		POSChannels       int
+		ScaleChannels     int
+		LPRChannels       int
+		AdvancedReporting bool
+		CloudStorage      bool
+		StoreType         string
 	}{
-		MaxDevices:  cfgGlobal.License.MaxTotalDevices,
-		Fingerprint: cfgGlobal.License.MachineFingerprint,
+		Fingerprint:       cfgGlobal.License.MachineFingerprint,
+		POSChannels:       posChannels,
+		ScaleChannels:     scaleChannels,
+		LPRChannels:       lprChannels,
+		AdvancedReporting: advancedReporting,
+		CloudStorage:      cloudStorage,
+		StoreType:         storeType,
 	}
 	tmpl.Execute(w, data)
 }
@@ -151,9 +184,8 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 			DSTORE: config.DSTOREConfig{ServerMainPort: atoi(r.FormValue("dstore_main"), cfgGlobal.DSTORE.ServerMainPort), ServerSecondPort: atoi(r.FormValue("dstore_second"), cfgGlobal.DSTORE.ServerSecondPort), ServerAuxPort: atoi(r.FormValue("dstore_aux"), cfgGlobal.DSTORE.ServerAuxPort)},
 			VBSPOS: config.VBSPOSConfig{MulticastIP: multicastIP, VbsMainPort: atoi(r.FormValue("vbspos_port"), cfgGlobal.VBSPOS.VbsMainPort)},
 			License: config.LicenseConfig{
-				MaxTotalDevices:    atoi(r.FormValue("license_max_total"), cfgGlobal.License.MaxTotalDevices),
-				MaxPerScale:        atoi(r.FormValue("license_max_scale"), cfgGlobal.License.MaxPerScale),
 				MachineFingerprint: r.FormValue("license_fingerprint"),
+				UnlockKey:          r.FormValue("unlock_key"),
 			},
 			IPMaps:      cfgGlobal.IPMaps,
 			DeviceTypes: cfgGlobal.DeviceTypes,
@@ -180,9 +212,8 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 		"DSTOREAux":          cfgGlobal.DSTORE.ServerAuxPort,
 		"VBSPOSMulticastIP":  cfgGlobal.VBSPOS.MulticastIP,
 		"VBSPOSPort":         cfgGlobal.VBSPOS.VbsMainPort,
-		"LicenseMaxTotal":    cfgGlobal.License.MaxTotalDevices,
-		"LicenseMaxScale":    cfgGlobal.License.MaxPerScale,
 		"LicenseFingerprint": cfgGlobal.License.MachineFingerprint,
+		"UnlockKey":          cfgGlobal.License.UnlockKey,
 	})
 }
 
@@ -201,10 +232,10 @@ func mappingsHandler(w http.ResponseWriter, r *http.Request) {
 		action := r.FormValue("action")
 
 		if action == "add" {
-			if len(cfgGlobal.IPMaps) >= 64 {
+			if len(cfgGlobal.IPMaps) >= getMaxMappings() {
 				w.Header().Set("Content-Type", "application/json")
-				w.WriteHeader(400)
-				json.NewEncoder(w).Encode(map[string]string{"error": "Maximum 64 mappings reached"})
+				w.WriteHeader(http.StatusBadRequest)
+				json.NewEncoder(w).Encode(map[string]string{"error": fmt.Sprintf("Maximum %d mappings reached", getMaxMappings())})
 				return
 			}
 
@@ -301,8 +332,8 @@ func mappingsHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, map[string]interface{}{
 		"IPMaps":      cfgGlobal.IPMaps,
 		"DeviceTypes": cfgGlobal.DeviceTypes,
-		"MaxMaps":     64,
-		"CanAdd":      len(cfgGlobal.IPMaps) < 64,
+		"MaxMaps":     getMaxMappings(),
+		"CanAdd":      len(cfgGlobal.IPMaps) < getMaxMappings(),
 		"MapCount":    len(cfgGlobal.IPMaps),
 	})
 }
@@ -383,6 +414,13 @@ func restartService() {
 	os.Exit(0)
 }
 
+func getMaxMappings() int {
+	if licenseDataGlobal != nil {
+		return licenseDataGlobal.ScaleChannels
+	}
+	return 64
+}
+
 // ──────────────────────────────
 // Setup Handlers
 // ──────────────────────────────
@@ -437,7 +475,7 @@ time{color:#8b949e;font-size:0.9rem;}
 <a href="/mappings">NVR Mappings</a>
 </nav>
 <main>
-<h1>Live POS Events</h1>
+<h1>Live POS Events - {{.StoreType}}</h1>
 <div class="license-info">
 <div class="license-card">
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="10" rx="6" ry="7" stroke="#58a6ff" stroke-width="2" fill="none"/><path d="M10 16c0-3 2.5-5 6-5s6 2 6 5v8c0 2-1 3-3 3h-6c-2 0-3-1-3-3v-8z" stroke="#58a6ff" stroke-width="2" fill="none"/><path d="M13 18h1m4 0h1m-6 3h1m4 0h1m-6 3h1m4 0h1" stroke="#58a6ff" stroke-width="1.5"/></svg>
@@ -447,33 +485,44 @@ time{color:#8b949e;font-size:0.9rem;}
 </div>
 </div>
 <div class="license-card">
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="8" width="20" height="16" rx="2" stroke="#58a6ff" stroke-width="2" fill="none"/><path d="M6 13h20M10 8v-2m12 2v-2" stroke="#58a6ff" stroke-width="2"/><circle cx="12" cy="18" r="1.5" fill="#58a6ff"/><circle cx="16" cy="18" r="1.5" fill="#58a6ff"/><circle cx="20" cy="18" r="1.5" fill="#58a6ff"/></svg>
-<div class="info">
-<div class="label">Total Devices</div>
-<div class="value" style="color:#58a6ff;">{{.MaxDevices}}</div>
-</div>
-</div>
-<div class="license-card">
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="8" y="4" width="16" height="24" rx="2" stroke="#238636" stroke-width="2" fill="none"/><rect x="11" y="8" width="10" height="12" rx="1" stroke="#238636" stroke-width="1.5" fill="none"/><line x1="13" y1="11" x2="19" y2="11" stroke="#238636" stroke-width="1.5"/><line x1="13" y1="14" x2="19" y2="14" stroke="#238636" stroke-width="1.5"/><line x1="13" y1="17" x2="17" y2="17" stroke="#238636" stroke-width="1.5"/><rect x="13" y="23" width="6" height="2" rx="1" fill="#238636"/></svg>
 <div class="info">
-<div class="label">POS Devices</div>
-<div class="value" style="color:#238636;">0</div>
+<div class="label">POS Channels</div>
+<div class="value" style="color:#238636;">{{.POSChannels}}</div>
 </div>
 </div>
 <div class="license-card">
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="12" width="20" height="12" rx="2" stroke="#f85149" stroke-width="2" fill="none"/><path d="M10 12v-2c0-3 2-5 6-5s6 2 6 5v2" stroke="#f85149" stroke-width="2" fill="none"/><rect x="10" y="16" width="4" height="4" rx="1" fill="#f85149"/><rect x="18" y="16" width="4" height="4" rx="1" fill="#f85149"/><line x1="14" y1="18" x2="18" y2="18" stroke="#f85149" stroke-width="2"/></svg>
 <div class="info">
-<div class="label">Scale Devices</div>
-<div class="value" style="color:#f85149;">0</div>
+<div class="label">Scale Channels</div>
+<div class="value" style="color:#f85149;">{{.ScaleChannels}}</div>
 </div>
 </div>
 <div class="license-card">
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="10" width="24" height="12" rx="2" stroke="#e6edf3" stroke-width="2" fill="none"/><rect x="8" y="14" width="4" height="4" rx="0.5" fill="#e6edf3"/><rect x="13" y="14" width="2" height="4" rx="0.5" fill="#e6edf3"/><rect x="16" y="14" width="4" height="4" rx="0.5" fill="#e6edf3"/><rect x="21" y="14" width="3" height="4" rx="0.5" fill="#e6edf3"/></svg>
 <div class="info">
-<div class="label">LPR Devices</div>
-<div class="value" style="color:#e6edf3;">0</div>
+<div class="label">LPR Channels</div>
+<div class="value" style="color:#e6edf3;">{{.LPRChannels}}</div>
 </div>
 </div>
+{{if .AdvancedReporting}}
+<div class="license-card">
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="4" width="20" height="24" rx="2" stroke="#a371f7" stroke-width="2" fill="none"/><line x1="10" y1="10" x2="22" y2="10" stroke="#a371f7" stroke-width="1.5"/><line x1="10" y1="14" x2="22" y2="14" stroke="#a371f7" stroke-width="1.5"/><line x1="10" y1="18" x2="18" y2="18" stroke="#a371f7" stroke-width="1.5"/><rect x="10" y="21" width="4" height="4" fill="#a371f7"/><rect x="15" y="23" width="4" height="2" fill="#a371f7"/><rect x="20" y="22" width="2" height="3" fill="#a371f7"/></svg>
+<div class="info">
+<div class="label">Advanced Reporting</div>
+<div class="value" style="color:#a371f7;">Enabled</div>
+</div>
+</div>
+{{end}}
+{{if .CloudStorage}}
+<div class="license-card">
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M24 18c2.2 0 4-1.8 4-4s-1.8-4-4-4c0-3.3-2.7-6-6-6-2.6 0-4.8 1.7-5.6 4-2.8 0.2-5 2.5-5 5.4 0 3 2.4 5.4 5.4 5.4h11.2z" stroke="#ffa657" stroke-width="2" fill="none"/><path d="M16 22v6m-3-3l3 3 3-3" stroke="#ffa657" stroke-width="2"/></svg>
+<div class="info">
+<div class="label">Cloud Storage</div>
+<div class="value" style="color:#ffa657;">Enabled</div>
+</div>
+</div>
+{{end}}
 </div>
 <div id="log"></div>
 </main>
@@ -509,6 +558,7 @@ h1{color:#58a6ff;margin:0 0 32px;}
 form{display:grid;grid-template-columns:1fr 2fr;gap:16px;}
 label{justify-self:end;align-self:center;font-weight:600;color:#8b949e;}
 input{padding:10px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:6px;font-size:1rem;width:100%;}
+textarea{padding:10px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:6px;font-size:1rem;width:100%;font-family:monospace;}
 .buttons{grid-column:1 / -1;text-align:center;margin-top:32px;}
 button{padding:12px 28px;margin:0 12px;border:none;border-radius:8px;cursor:pointer;font-weight:600;}
 button[type=submit]{background:#238636;color:#fff;}
@@ -544,9 +594,8 @@ button:hover{opacity:0.9;}
 <label>Port:</label><input type="number" name="vbspos_port" value="{{.VBSPOSPort}}" required min="1" max="65535">
 
 <h3 style="grid-column:1 / -1;color:#8b949e;margin:24px 0 8px;">License</h3>
-<label>Max Total Devices:</label><input type="number" name="license_max_total" value="{{.LicenseMaxTotal}}" required min="1">
-<label>Max Per Scale:</label><input type="number" name="license_max_scale" value="{{.LicenseMaxScale}}" required min="1">
-<label>Fingerprint:</label><input type="text" name="license_fingerprint" value="{{.LicenseFingerprint}}" required>
+<label>Fingerprint:</label><input type="text" name="license_fingerprint" value="{{.LicenseFingerprint}}" readonly style="background:#0d1117;cursor:not-allowed;">
+<label>Unlock Key:</label><textarea name="unlock_key" rows="3">{{.UnlockKey}}</textarea>
 
 <div class="buttons">
 <button type="submit">Save & Restart</button>
@@ -671,7 +720,7 @@ button:disabled{opacity:0.5;cursor:not-allowed;}
 </form>
 </div>
 {{else}}
-<div class="info" style="color:#f78166;">Maximum number of mappings (64) reached. Delete a mapping to add a new one.</div>
+<div class="info" style="color:#f78166;">Maximum number of mappings ({{.MaxMaps}}) reached. Delete a mapping to add a new one.</div>
 {{end}}
 
 <form method="POST" id="saveForm">

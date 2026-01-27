@@ -35,22 +35,27 @@ func main() {
 		log.Fatalf("Failed to load config: %v", err)
 	}
 
-	if err := license.Validate(cfg.License); err != nil {
+	licenseData, err := license.Validate(cfg.License)
+	if err != nil {
 		log.Fatalf("License validation failed: %v", err)
 	}
-	log.Printf("License valid. Max devices: %d", cfg.License.MaxTotalDevices)
+	log.Printf("License valid. Store: %s | POS: %d | Scales: %d | LPR: %d",
+		license.GetStoreTypeName(licenseData.StoreType),
+		licenseData.POSChannels,
+		licenseData.ScaleChannels,
+		licenseData.LPRChannels)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// UDP servers (existing providers)
-	udpServers := startUDPServers(ctx, cfg)
+	udpServers := startUDPServers(ctx, cfg, licenseData)
 
 	// Sender to CCTV
 	udpSender := sender.NewUDPSender(cfg.CCTV.NVRIP, cfg.CCTV.NVRPort)
 
-	// Parser factory
-	parserFactory := factory.NewParserFactory()
+	// Parser factory with store type
+	parserFactory := factory.NewParserFactory(licenseData.StoreType)
 
 	// VBS POS multicast listener
 	log.Printf("Starting VBS multicast listener on %s:%d",
@@ -89,7 +94,7 @@ func main() {
 	log.Println("Service stopped cleanly.")
 }
 
-func startUDPServers(ctx context.Context, cfg *config.Config) []*UDPServer {
+func startUDPServers(ctx context.Context, cfg *config.Config, licData *license.LicenseData) []*UDPServer {
 	var servers []*UDPServer
 
 	// Example ports — later read from config
@@ -105,7 +110,7 @@ func startUDPServers(ctx context.Context, cfg *config.Config) []*UDPServer {
 
 		srv := &UDPServer{
 			conn:     conn,
-			factory:  factory.NewParserFactory(),
+			factory:  factory.NewParserFactory(licData.StoreType),
 			sender:   sender.NewUDPSender(cfg.CCTV.NVRIP, cfg.CCTV.NVRPort),
 			shutdown: make(chan struct{}),
 		}

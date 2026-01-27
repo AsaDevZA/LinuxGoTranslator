@@ -11,43 +11,48 @@ vbspos:
     multicast_ip: 230.0.0.1
     vbspos_port: 4050
 license:
-    max_total_devices: 100
-    max_per_scale: 20
     machine_fingerprint: f0:d4:15:05:36:e2
+    unlock_key: Y9zMRazRpWOU9aUnf3rTMhTB2qy3s0PKW5St/eqGPrk=
 ipmaps:
-    - ipaddress: 192.168.1.100
-      port: 2000
-      type: 2
     - ipaddress: 192.168.1.101
-      port: 2000
-      type: 4
-    - ipaddress: 192.168.1.100
-      port: 2000
-      type: 4
-    - ipaddress: 192.168.1.100
-      port: 2000
-      type: 3
-    - ipaddress: 192.168.1.100
-      port: 2000
-      type: 4
-    - ipaddress: 192.168.1.100
-      port: 2000
-      type: 2
-    - ipaddress: 192.168.1.100
-      port: 2000
-      type: 3
-    - ipaddress: 192.168.1.100
-      port: 2000
-      type: 2
-    - ipaddress: 192.168.1.100
-      port: 2000
-      type: 2
-    - ipaddress: 192.168.0.2
-      port: 2000
-      type: 4
-    - ipaddress: 192.168.0.1
-      port: 4000
-      type: 3
+      port: 55000
+      type: 6
+    - ipaddress: 192.168.1.102
+      port: 55000
+      type: 6
+    - ipaddress: 192.168.1.103
+      port: 55000
+      type: 6
+    - ipaddress: 192.168.1.104
+      port: 55000
+      type: 6
+    - ipaddress: 192.168.1.105
+      port: 55000
+      type: 6
+    - ipaddress: 192.168.1.106
+      port: 55000
+      type: 5
+    - ipaddress: 192.168.1.107
+      port: 55000
+      type: 5
+    - ipaddress: 192.168.1.108
+      port: 55000
+      type: 5
+    - ipaddress: 192.168.1.109
+      port: 41001
+      type: 5
+    - ipaddress: 192.168.1.110
+      port: 41001
+      type: 1
+    - ipaddress: 192.168.1.111
+      port: 41001
+      type: 1
+    - ipaddress: 192.168.1.112
+      port: 41001
+      type: 1
+    - ipaddress: 192.168.0.20
+      port: 40001
+      type: 1
 device_types:
     - id: 1
       name: Terioka
@@ -68,13 +73,13 @@ device_types:
       name: Ishida
       description: BC4000 Protocol
 site_details:
-    site_name: Pick and Pay
-    branch: Precap Center
-    site_location: George
-    owner_name: Adriaan
-    owner_surname: Vorster
-    contact_cell: "0842087825"
-    contact_email: adriaan.ultech@gmail.com
+    site_name: UltechHQ
+    branch: East London
+    site_location: Beaconbay
+    owner_name: Trevor
+    owner_surname: Pomfret
+    contact_cell: "0836565995"
+    contact_email: trevor@ultech.co.za
 admin:
     username: admin
     password: admin
